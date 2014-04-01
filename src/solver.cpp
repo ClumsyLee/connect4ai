@@ -1,4 +1,5 @@
 #include "solver.h"
+#include "Point.h"
 
 Solver::Solver(int M, int N, const int *top, int **board,
                int lastX, int lastY, int noX, int noY)
@@ -15,4 +16,9 @@ Solver::Solver(int M, int N, const int *top, int **board,
 
 Solver::~Solver()
 {
+}
+
+Point Solver::FindBestMove()
+{
+
 }
