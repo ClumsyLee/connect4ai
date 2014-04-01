@@ -23,8 +23,10 @@
     output:
         你的落子点Point
 */
+
 Point* getPoint(const int M, const int N, const int* top, const int* _board,
-    const int lastX, const int lastY, const int noX, const int noY){
+    const int lastX, const int lastY, const int noX, const int noY)
+{
     /*
         不要更改这段代码
     */
@@ -57,7 +59,8 @@ Point* getPoint(const int M, const int N, const int* top, const int* _board,
     getPoint函数返回的Point指针是在本dll模块中声明的，为避免产生堆错误，应在外部调用本dll中的
     函数来释放空间，而不应该在外部直接delete
 */
-void clearPoint(Point* p){
+void clearPoint(Point* p)
+{
     delete p;
     return;
 }
@@ -65,8 +68,10 @@ void clearPoint(Point* p){
 /*
     清除top和board数组
 */
-void clearArray(int M, int N, int** board){
-    for (int i = 0; i < M; i++){
+void clearArray(int M, int N, int** board)
+{
+    for (int i = 0; i < M; i++)
+    {
         delete[] board[i];
     }
     delete[] board;
