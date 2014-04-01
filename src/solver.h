@@ -8,7 +8,7 @@ class Solver
  public:
     Solver(int M, int N, const int *top, int **board,
            int lastX, int lastY, int noX, int noY);
-    ~Solver() {}
+    ~Solver();
 
     Point FindBestMove();
 

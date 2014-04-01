@@ -12,3 +12,7 @@ Solver::Solver(int M, int N, const int *top, int **board,
           noY_(noY)
 {
 }
+
+Solver::~Solver()
+{
+}
