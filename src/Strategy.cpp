@@ -2,8 +2,6 @@
 #include "Point.h"
 #include "Strategy.h"
 
-using namespace std;
-
 /*
     策略函数接口,该函数被对抗平台调用,每次传入当前状态,要求输出你的落子点,该落子点必须是一个符合游戏规则的落子点,不然对抗平台会直接认为你的程序有误
     
@@ -25,28 +23,28 @@ using namespace std;
     output:
         你的落子点Point
 */
-extern "C" __declspec(dllexport) Point* getPoint(const int M, const int N, const int* top, const int* _board, 
+Point* getPoint(const int M, const int N, const int* top, const int* _board,
     const int lastX, const int lastY, const int noX, const int noY){
     /*
         不要更改这段代码
     */
-    int x = -1, y = -1;//最终将你的落子点存到x,y中
+    int x = -1, y = -1;  // 最终将你的落子点存到x,y中
     int** board = new int*[M];
-    for(int i = 0; i < M; i++){
+    for (int i = 0; i < M; i++){
         board[i] = new int[N];
-        for(int j = 0; j < N; j++){
+        for (int j = 0; j < N; j++){
             board[i][j] = _board[i * N + j];
         }
     }
-    
+
     /*
         根据你自己的策略来返回落子点,也就是根据你的策略完成对x,y的赋值
         该部分对参数使用没有限制，为了方便实现，你可以定义自己新的类、.h文件、.cpp文件
     */
-    //Add your own code below
-    
-    
-    
+    // Add your own code below
+
+
+
     /*
         不要更改这段代码
     */
@@ -59,7 +57,7 @@ extern "C" __declspec(dllexport) Point* getPoint(const int M, const int N, const
     getPoint函数返回的Point指针是在本dll模块中声明的，为避免产生堆错误，应在外部调用本dll中的
     函数来释放空间，而不应该在外部直接delete
 */
-extern "C" __declspec(dllexport) void clearPoint(Point* p){
+void clearPoint(Point* p){
     delete p;
     return;
 }
@@ -68,7 +66,7 @@ extern "C" __declspec(dllexport) void clearPoint(Point* p){
     清除top和board数组
 */
 void clearArray(int M, int N, int** board){
-    for(int i = 0; i < M; i++){
+    for (int i = 0; i < M; i++){
         delete[] board[i];
     }
     delete[] board;
