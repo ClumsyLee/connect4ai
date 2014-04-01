@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Point.h"
 #include "Strategy.h"
+#include "solver.h"
 
 /*
     策略函数接口,该函数被对抗平台调用,每次传入当前状态,要求输出你的落子点,该落子点必须是一个符合游戏规则的落子点,不然对抗平台会直接认为你的程序有误
@@ -45,7 +46,10 @@ Point* getPoint(const int M, const int N, const int* top, const int* _board,
     */
     // Add your own code below
 
-
+    Solver soler(M, N, top, board, lastX, lastY, noX, noY);
+    Point best_move = soler.FindBestMove();
+    x = best_move.x;
+    y = best_move.y;
 
     /*
         不要更改这段代码
