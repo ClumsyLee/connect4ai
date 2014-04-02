@@ -6,6 +6,8 @@
 class Solver
 {
  public:
+    class GameGrid;
+
     Solver(int M, int N, const int *top, int **board,
            int lastX, int lastY, int noX, int noY,
            int depth);
@@ -14,7 +16,6 @@ class Solver
     Point FindBestMove();
 
  private:
-    class GameGrid;
     class AlphaNode;
     class BetaNode;
 
