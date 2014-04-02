@@ -1,6 +1,6 @@
 #include <cstring>
-#include <cassert>
 #include <climits>
+#include <iostream>
 #include "solver.h"
 #include "Point.h"
 #include "Judge.h"
@@ -90,35 +90,37 @@ void DealWithPiece(int piece_here,
                    int &enemy_continuous_space, int &enemy_count,
                    int &evaluation_point)
 {
-            if (piece_here == Solver::GameGrid::ENEMY)
-            {
-                // for friendly
-                // add if there are enough spaces before this square
-                if (friendly_continuous_space >= 4)
-                    evaluation_point += friendly_count;
-                friendly_continuous_space = 0;
-                friendly_count = 0;
-                // for enemy
-                enemy_continuous_space++;
-                enemy_count++;
-            }
-            else if (piece_here == Solver::GameGrid::FRIENDLY)
-            {
-                // for friendly
-                friendly_continuous_space++;
-                friendly_count++;
-                // for enemy
-                // add if there are enough spaces before this square
-                if (enemy_continuous_space >= 4)
-                    evaluation_point -= enemy_count;
-                enemy_continuous_space = 0;
-                enemy_count = 0;
-            }
-            else  // blank square
-            {
-                friendly_continuous_space++;
-                enemy_continuous_space++;
-            }
+    std::clog << "Dealing with piece...";
+    if (piece_here == Solver::GameGrid::ENEMY)
+    {
+        // for friendly
+        // add if there are enough spaces before this square
+        if (friendly_continuous_space >= 4)
+            evaluation_point += friendly_count;
+        friendly_continuous_space = 0;
+        friendly_count = 0;
+        // for enemy
+        enemy_continuous_space++;
+        enemy_count++;
+    }
+    else if (piece_here == Solver::GameGrid::FRIENDLY)
+    {
+        // for friendly
+        friendly_continuous_space++;
+        friendly_count++;
+        // for enemy
+        // add if there are enough spaces before this square
+        if (enemy_continuous_space >= 4)
+            evaluation_point -= enemy_count;
+        enemy_continuous_space = 0;
+        enemy_count = 0;
+    }
+    else  // blank square
+    {
+        friendly_continuous_space++;
+        enemy_continuous_space++;
+    }
+    std::clog << "Done\n";
 }
 
 }  // namespace
@@ -126,9 +128,16 @@ void DealWithPiece(int piece_here,
 
 ///////////////////////// functions of GameGrid /////////////////////////
 
+int Solver::GameGrid::M_ = -1;
+int Solver::GameGrid::N_ = -1;
+int Solver::GameGrid::noX_ = -1;
+int Solver::GameGrid::noY_ = -1;
+
 Solver::GameGrid::GameGrid(int M, int N, const int *top, int **board,
                            int lastX, int lastY, int noX, int noY)
 {
+    std::clog << "Building GameGrid from origin arguments...";
+
     // static members
     M_ = M;
     N_ = N;
@@ -147,10 +156,14 @@ Solver::GameGrid::GameGrid(int M, int N, const int *top, int **board,
     }
     // We just drop lastX and lastY here, but keep them in the parameters
     // so that it can be used later if needed.
+
+    std::clog << "Done\n";
 }
 
 Solver::GameGrid::GameGrid(const GameGrid &parent)
 {
+    std::clog << "Building GameGrid from parent GameGrid...";
+
     // copy the top
     top_ = new int[N_];
     std::memcpy(top_, parent.top_, N_ * sizeof(top_[0]));
@@ -163,10 +176,13 @@ Solver::GameGrid::GameGrid(const GameGrid &parent)
         std::memcpy(board_[row], parent.board_[row],
                     N_ * sizeof(board_[0][0]));
     }
+
+    std::clog << "Done\n";
 }
 
 Solver::GameGrid::~GameGrid()
 {
+    std::clog << "Destructing GameGrid...";
     // delete top
     delete top_;
 
@@ -174,10 +190,15 @@ Solver::GameGrid::~GameGrid()
     for (int row = 0; row < M_; row++)
         delete board_[row];
     delete board_;
+
+    std::clog << "Done\n";
 }
 
 void Solver::GameGrid::Place(int this_x, int this_y, int piece_type)
 {
+    std::clog << "Placing " << piece_type << " to (" << this_x << ", "
+                                                     << this_y << ")...";
+
     // adjust the top of the col
     // jump over if the new top is (noX, noY)
     if (this_y == noY_ && this_x == noX_ + 1 && noX_ != 0)
@@ -185,12 +206,17 @@ void Solver::GameGrid::Place(int this_x, int this_y, int piece_type)
     else
         top_[this_y]--;
 
+    std::clog << "top adjusted...";
     // add the new piece
     board_[this_x][this_y] = piece_type;
+
+    std::clog << "Done\n";
 }
 
 int Solver::GameGrid::Evaluate() const
 {
+    std::clog << "Evaluating...\n";
+
     int evaluation_point = 0;
     // for every row
     for (int row = 0; row < M_; row++)
@@ -321,6 +347,8 @@ int Solver::GameGrid::Evaluate() const
             evaluation_point += enemy_count;
     }
     return evaluation_point;
+
+    std::clog << "Evaluation done\n";
 }
 
 
@@ -334,11 +362,13 @@ Solver::Solver(int M, int N, const int *top, int **board,
                         lastX, lastY, noX, noY)),
           depth_(depth)
 {
+    std::clog << "A solver built\n";
 }
 
 Solver::~Solver()
 {
     delete initial_state_;
+    std::clog << "A solver destructed\n";
 }
 
 Point Solver::FindBestMove()
@@ -377,6 +407,7 @@ Solver::AlphaNode::AlphaNode(const BetaNode &parent, int this_x, int this_y)
 
 int Solver::AlphaNode::FindMax(int depth)
 {
+    std::clog << "FindMax called for a alpha node (depth: " << depth << ")\n";
     if (depth <= 0)  // depth limit reached
         return board_.Evaluate();
 
@@ -430,6 +461,7 @@ Solver::BetaNode::BetaNode(const AlphaNode &parent, int this_x, int this_y)
 
 int Solver::BetaNode::FindMin(int depth)
 {
+    std::clog << "FindMin called for a beta node (depth: " << depth << ")\n";
     if (depth <= 0)  // depth limit reached
         return board_.Evaluate();
 

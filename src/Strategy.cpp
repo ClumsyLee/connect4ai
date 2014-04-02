@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Point.h"
 #include "Strategy.h"
 #include "solver.h"
@@ -45,6 +46,15 @@ Point* getPoint(const int M, const int N, const int* top, const int* _board,
         该部分对参数使用没有限制，为了方便实现，你可以定义自己新的类、.h文件、.cpp文件
     */
     // Add your own code below
+
+    std::ofstream logfile("Strategy.log");
+    std::clog.rdbuf(logfile.rdbuf());
+    std::clog << "getPoint called\n"
+                 "\ttops: ";
+
+    for (int i = 0; i < N; i++)
+        std::clog << top[i] << " ";
+    std::clog << std::endl;
 
     Solver solver(M, N, top, board, lastX, lastY, noX, noY, 5);
     Point best_move = solver.FindBestMove();
