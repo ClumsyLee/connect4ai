@@ -350,7 +350,7 @@ Point Solver::FindBestMove()
     if (best_col == -1)  // no solutions
         return Point(-1, -1);
 
-    return Point(initial_state_->top()[best_col], best_col);
+    return Point(initial_state_->top()[best_col] - 1, best_col);
 }
 
 
@@ -388,11 +388,11 @@ int Solver::AlphaNode::FindMax(int depth)
             continue;
 
         // construct the child and find min
-        BetaNode child(*this, top_this_col, col);
+        BetaNode child(*this, top_this_col - 1, col);
         int child_value;
         // If AI wins, there is no need to keep finding
         // so the child node do not need to expend.
-        if (machineWin(top_this_col, col, GameGrid::M(), GameGrid::N(),
+        if (machineWin(top_this_col - 1, col, GameGrid::M(), GameGrid::N(),
             child.board().board()))
             child_value = INT_MAX;
         else
@@ -441,11 +441,11 @@ int Solver::BetaNode::FindMin(int depth)
             continue;
 
         // construct the child and find max
-        AlphaNode child(*this, top_this_col, col);
+        AlphaNode child(*this, top_this_col - 1, col);
         int child_value;
         // If user wins, there is no need to keep finding
         // so the child node do not need to expend.
-        if (userWin(top_this_col, col, GameGrid::M(), GameGrid::N(),
+        if (userWin(top_this_col - 1, col, GameGrid::M(), GameGrid::N(),
             child.board().board()))
             child_value = INT_MIN;
         else
