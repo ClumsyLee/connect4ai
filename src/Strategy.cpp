@@ -46,8 +46,8 @@ Point* getPoint(const int M, const int N, const int* top, const int* _board,
     */
     // Add your own code below
 
-    Solver soler(M, N, top, board, lastX, lastY, noX, noY);
-    Point best_move = soler.FindBestMove();
+    Solver solver(M, N, top, board, lastX, lastY, noX, noY, 5);
+    Point best_move = solver.FindBestMove();
     x = best_move.x;
     y = best_move.y;
 

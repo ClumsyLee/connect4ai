@@ -7,17 +7,22 @@ class Solver
 {
  public:
     Solver(int M, int N, const int *top, int **board,
-           int lastX, int lastY, int noX, int noY);
+           int lastX, int lastY, int noX, int noY,
+           int depth);
     ~Solver();
 
     Point FindBestMove();
 
  private:
-    const int M_, N_;
-    const int *top_;
-    int **board_;
-    const int lastX_, lastY_;
-    const int noX_, noY_;
+    class GameGrid;
+    class AlphaNode;
+    class BetaNode;
+
+    Solver(const Solver &);
+    void operator=(const Solver &);
+
+    const GameGrid *initial_state_;
+    int depth_;
 };
 
 #endif  // CONNECT4AI_SOLVER_H_
