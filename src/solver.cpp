@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <cstring>
 #include <climits>
 #include <iostream>
@@ -387,7 +388,13 @@ Point Solver::FindBestMove()
     int best_col = head_node.best_col();
 
     if (best_col == -1)  // no solutions
-        return Point(-1, -1);
+    {
+        // pick a column randomly
+        do
+        {
+            best_col = std::rand() % initial_state_->N();
+        } while (initial_state_->top()[best_col] == 0);
+    }
 
     return Point(initial_state_->top()[best_col] - 1, best_col);
 }
