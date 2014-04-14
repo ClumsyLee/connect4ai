@@ -214,6 +214,13 @@ int Solver::GameGrid::Evaluate() const
 {
     std::clog << "Evaluating...\n";
 
+    for (int x = 0; x < M_; x++)
+    {
+        for (int y = 0; y < N_; y++)
+            std::clog << board_[x][y];
+        std::clog << std::endl;
+    }
+
     int evaluation_point = 0;
     // for every row
     for (int row = 0; row < M_; row++)
