@@ -411,7 +411,7 @@ Solver::AlphaNode::AlphaNode(const BetaNode &parent, int this_x, int this_y)
           beta_min_(parent.beta_min()),
           best_col_(-1)
 {
-    board_.Place(this_x, this_y, GameGrid::FRIENDLY);
+    board_.Place(this_x, this_y, GameGrid::ENEMY);
 }
 
 int Solver::AlphaNode::FindMax(int depth)
@@ -464,7 +464,7 @@ Solver::BetaNode::BetaNode(const AlphaNode &parent, int this_x, int this_y)
           beta_min_(parent.beta_min()),
           best_col_(-1)
 {
-    board_.Place(this_x, this_y, GameGrid::ENEMY);
+    board_.Place(this_x, this_y, GameGrid::FRIENDLY);
 }
 
 
