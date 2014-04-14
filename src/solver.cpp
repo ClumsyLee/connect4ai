@@ -445,6 +445,8 @@ int Solver::AlphaNode::FindMax(int depth)
         else
             child_value = child.FindMin(depth - 1);
 
+        std::clog << "Depth:" << depth << " col: " << col << " value: " << child_value << std::endl;
+
         if (child_value > max_value)  // a better child found
         {
             max_value = child_value;
