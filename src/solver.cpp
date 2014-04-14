@@ -137,8 +137,6 @@ Solver::GameGrid::GameGrid(int M, int N, const int *top, int **board,
         : top_(new int[N]),
           board_(new int *[M])
 {
-    std::clog << "Building GameGrid from origin arguments...";
-
     // static members
     M_ = M;
     N_ = N;
@@ -155,16 +153,12 @@ Solver::GameGrid::GameGrid(int M, int N, const int *top, int **board,
     }
     // We just drop lastX and lastY here, but keep them in the parameters
     // so that it can be used later if needed.
-
-    std::clog << "Done\n";
 }
 
 Solver::GameGrid::GameGrid(const GameGrid &parent)
         : top_(new int[N_]),
           board_(new int *[M_])
 {
-    std::clog << "Building GameGrid from parent GameGrid...";
-
     // copy the top
     std::memcpy(top_, parent.top_, N_ * sizeof(top_[0]));
 
@@ -175,13 +169,10 @@ Solver::GameGrid::GameGrid(const GameGrid &parent)
         std::memcpy(board_[row], parent.board_[row],
                     N_ * sizeof(board_[0][0]));
     }
-
-    std::clog << "Done\n";
 }
 
 Solver::GameGrid::~GameGrid()
 {
-    std::clog << "Destructing GameGrid...";
     // delete top
     delete top_;
 
@@ -190,14 +181,10 @@ Solver::GameGrid::~GameGrid()
         delete board_[row];
     delete board_;
 
-    std::clog << "Done\n";
 }
 
 void Solver::GameGrid::Place(int this_x, int this_y, int piece_type)
 {
-    std::clog << "Placing " << piece_type << " to (" << this_x << ", "
-                                                     << this_y << ")...";
-
     // adjust the top of the col
     // jump over if the new top is (noX, noY)
     if (this_y == noY_ && this_x == noX_ + 1 && noX_ != 0)
@@ -205,24 +192,12 @@ void Solver::GameGrid::Place(int this_x, int this_y, int piece_type)
     else
         top_[this_y]--;
 
-    std::clog << "top adjusted...";
     // add the new piece
     board_[this_x][this_y] = piece_type;
-
-    std::clog << "Done\n";
 }
 
 int Solver::GameGrid::Evaluate() const
 {
-    std::clog << "Evaluating...\n";
-
-    for (int x = 0; x < M_; x++)
-    {
-        for (int y = 0; y < N_; y++)
-            std::clog << board_[x][y];
-        std::clog << std::endl;
-    }
-
     int evaluation_point = 0;
     // for every row
     for (int row = 0; row < M_; row++)
@@ -245,7 +220,6 @@ int Solver::GameGrid::Evaluate() const
         if (enemy_continuous_space >= 4)
             evaluation_point -= enemy_count;
     }
-    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // for every column
     for (int col = 0; col < N_; col++)
     {
@@ -267,7 +241,6 @@ int Solver::GameGrid::Evaluate() const
         if (enemy_continuous_space >= 4)
             evaluation_point -= enemy_count;
     }
-    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // for every diagonal
     // from left side, the last three diagonals can be ignored
     for (int row = M_ - 4; row >= 0; row--)
@@ -290,7 +263,6 @@ int Solver::GameGrid::Evaluate() const
         if (enemy_continuous_space >= 4)
             evaluation_point -= enemy_count;
     }
-    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // from up side, the last three diagonals can be ignored
     for (int col = N_ - 4; col > 0; col--)
     {
@@ -312,7 +284,6 @@ int Solver::GameGrid::Evaluate() const
         if (enemy_continuous_space >= 4)
             evaluation_point -= enemy_count;
     }
-    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // for every clinodiagoal
     // from up side, the first three can be ignored
     for (int col = 3; col < N_; col++)
@@ -335,7 +306,6 @@ int Solver::GameGrid::Evaluate() const
         if (enemy_continuous_space >= 4)
             evaluation_point -= enemy_count;
     }
-    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // from right side, the last three can be ignored
     for (int row = M_ - 4; row > 0; row--)
     {
@@ -357,7 +327,6 @@ int Solver::GameGrid::Evaluate() const
         if (enemy_continuous_space >= 4)
             evaluation_point -= enemy_count;
     }
-    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     return evaluation_point;
 }
 
@@ -372,13 +341,11 @@ Solver::Solver(int M, int N, const int *top, int **board,
                         lastX, lastY, noX, noY)),
           depth_(depth)
 {
-    std::clog << "A solver built\n";
 }
 
 Solver::~Solver()
 {
     delete initial_state_;
-    std::clog << "A solver destructed\n";
 }
 
 Point Solver::FindBestMove()
@@ -423,7 +390,6 @@ Solver::AlphaNode::AlphaNode(const BetaNode &parent, int this_x, int this_y)
 
 int Solver::AlphaNode::FindMax(int depth)
 {
-    std::clog << "FindMax called for a alpha node (depth: " << depth << ")\n";
     if (depth <= 0)  // depth limit reached
         return board_.Evaluate();
 
@@ -444,8 +410,6 @@ int Solver::AlphaNode::FindMax(int depth)
             child_value = INT_MAX;
         else
             child_value = child.FindMin(depth - 1);
-
-        std::clog << "Depth:" << depth << " col: " << col << " value: " << child_value << std::endl;
 
         if (child_value > max_value)  // a better child found
         {
@@ -479,7 +443,6 @@ Solver::BetaNode::BetaNode(const AlphaNode &parent, int this_x, int this_y)
 
 int Solver::BetaNode::FindMin(int depth)
 {
-    std::clog << "FindMin called for a beta node (depth: " << depth << ")\n";
     if (depth <= 0)  // depth limit reached
         return board_.Evaluate();
 
