@@ -82,8 +82,7 @@ class Solver::BetaNode
 
 ///////////////////////// helper functions /////////////////////////
 
-namespace
-{
+namespace {
 
 void DealWithPiece(int piece_here,
                    int &friendly_continuous_space, int &friendly_count,
