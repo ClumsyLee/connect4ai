@@ -89,7 +89,6 @@ void DealWithPiece(int piece_here,
                    int &enemy_continuous_space, int &enemy_count,
                    int &evaluation_point)
 {
-    std::clog << "Dealing with piece...";
     if (piece_here == Solver::GameGrid::ENEMY)
     {
         // for friendly
@@ -119,7 +118,6 @@ void DealWithPiece(int piece_here,
         friendly_continuous_space++;
         enemy_continuous_space++;
     }
-    std::clog << "Done\n";
 }
 
 }  // namespace
@@ -346,8 +344,6 @@ int Solver::GameGrid::Evaluate() const
             evaluation_point += enemy_count;
     }
     return evaluation_point;
-
-    std::clog << "Evaluation done\n";
 }
 
 

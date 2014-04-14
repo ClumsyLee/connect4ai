@@ -49,12 +49,6 @@ Point* getPoint(const int M, const int N, const int* top, const int* _board,
 
     std::ofstream logfile("Strategy.log");
     std::clog.rdbuf(logfile.rdbuf());
-    std::clog << "getPoint called\n"
-                 "\ttops: ";
-
-    for (int i = 0; i < N; i++)
-        std::clog << top[i] << " ";
-    std::clog << std::endl;
 
     Solver solver(M, N, top, board, lastX, lastY, noX, noY, 5);
     Point best_move = solver.FindBestMove();
