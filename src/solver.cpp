@@ -132,6 +132,8 @@ int Solver::GameGrid::noY_ = -1;
 
 Solver::GameGrid::GameGrid(int M, int N, const int *top, int **board,
                            int lastX, int lastY, int noX, int noY)
+        : top_(new int[N]),
+          board_(new int *[M])
 {
     std::clog << "Building GameGrid from origin arguments...";
 
@@ -142,10 +144,8 @@ Solver::GameGrid::GameGrid(int M, int N, const int *top, int **board,
     noY_ = noY;
 
     // non-static members
-    top_ = new int[N_];
     std::memcpy(top_, top, N_ * sizeof(top[0]));
 
-    board_ = new int*[M_];
     for (int row = 0; row < M_; row++)
     {
         board_[row] = new int[N_];
@@ -158,15 +158,15 @@ Solver::GameGrid::GameGrid(int M, int N, const int *top, int **board,
 }
 
 Solver::GameGrid::GameGrid(const GameGrid &parent)
+        : top_(new int[N_]),
+          board_(new int *[M_])
 {
     std::clog << "Building GameGrid from parent GameGrid...";
 
     // copy the top
-    top_ = new int[N_];
     std::memcpy(top_, parent.top_, N_ * sizeof(top_[0]));
 
     // copy the board
-    board_ = new int*[M_];
     for (int row = 0; row < M_; row++)
     {
         board_[row] = new int[N_];
