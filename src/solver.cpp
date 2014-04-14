@@ -125,6 +125,7 @@ void DealWithPiece(int piece_here,
 
 ///////////////////////// functions of GameGrid /////////////////////////
 
+// static members
 int Solver::GameGrid::M_ = -1;
 int Solver::GameGrid::N_ = -1;
 int Solver::GameGrid::noX_ = -1;
@@ -241,8 +242,9 @@ int Solver::GameGrid::Evaluate() const
         if (friendly_continuous_space >= 4)
             evaluation_point += friendly_count;
         if (enemy_continuous_space >= 4)
-            evaluation_point += enemy_count;
+            evaluation_point -= enemy_count;
     }
+    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // for every column
     for (int col = 0; col < N_; col++)
     {
@@ -262,8 +264,9 @@ int Solver::GameGrid::Evaluate() const
         if (friendly_continuous_space >= 4)
             evaluation_point += friendly_count;
         if (enemy_continuous_space >= 4)
-            evaluation_point += enemy_count;
+            evaluation_point -= enemy_count;
     }
+    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // for every diagonal
     // from left side, the last three diagonals can be ignored
     for (int row = M_ - 4; row >= 0; row--)
@@ -284,10 +287,11 @@ int Solver::GameGrid::Evaluate() const
         if (friendly_continuous_space >= 4)
             evaluation_point += friendly_count;
         if (enemy_continuous_space >= 4)
-            evaluation_point += enemy_count;
+            evaluation_point -= enemy_count;
     }
+    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // from up side, the last three diagonals can be ignored
-    for (int col = N_ - 4; col >= 1; col--)
+    for (int col = N_ - 4; col > 0; col--)
     {
         int friendly_continuous_space = 0;
         int enemy_continuous_space = 0;
@@ -305,8 +309,9 @@ int Solver::GameGrid::Evaluate() const
         if (friendly_continuous_space >= 4)
             evaluation_point += friendly_count;
         if (enemy_continuous_space >= 4)
-            evaluation_point += enemy_count;
+            evaluation_point -= enemy_count;
     }
+    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // for every clinodiagoal
     // from up side, the first three can be ignored
     for (int col = 3; col < N_; col++)
@@ -327,8 +332,9 @@ int Solver::GameGrid::Evaluate() const
         if (friendly_continuous_space >= 4)
             evaluation_point += friendly_count;
         if (enemy_continuous_space >= 4)
-            evaluation_point += enemy_count;
+            evaluation_point -= enemy_count;
     }
+    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     // from right side, the last three can be ignored
     for (int row = M_ - 4; row > 0; row--)
     {
@@ -348,8 +354,9 @@ int Solver::GameGrid::Evaluate() const
         if (friendly_continuous_space >= 4)
             evaluation_point += friendly_count;
         if (enemy_continuous_space >= 4)
-            evaluation_point += enemy_count;
+            evaluation_point -= enemy_count;
     }
+    std::clog << "Evaluation point: " << evaluation_point << std::endl;
     return evaluation_point;
 }
 
