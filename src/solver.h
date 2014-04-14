@@ -19,6 +19,7 @@ class Solver
     class AlphaNode;
     class BetaNode;
 
+    // disable copy
     Solver(const Solver &);
     void operator=(const Solver &);
 
