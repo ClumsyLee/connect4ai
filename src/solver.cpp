@@ -117,7 +117,7 @@ int Solver::AlphaNode::FindMax(int depth)
         int top_this_col = board_.top()[col];
         if (top_this_col == 0)  // cannot put pieces here
             continue;
-// TODO: What if you cannot place it here? (NoX, NoY)
+
         // construct the child and find min
         BetaNode child(*this, top_this_col - 1, col);
         int child_value;
@@ -171,7 +171,6 @@ int Solver::BetaNode::FindMin(int depth)
         if (top_this_col == 0)  // cannot put pieces here
             continue;
 
-// TODO: What if you cannot place it here? (NoX, NoY)
         // construct the child and find max
         AlphaNode child(*this, top_this_col - 1, col);
         int child_value;
