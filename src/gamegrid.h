@@ -14,19 +14,18 @@ class GameGrid
     ~GameGrid();
 
     void Place(int this_x, int this_y, int piece_type);
-    int Evaluate() const;
 
     static int M() { return M_; }
     static int N() { return N_; }
     static int noX() { return noX_; }
     static int noY() { return noY_; }
     const int * top() const { return top_; }
-    //
+
     int ** board() const { return board_; }
     double value() const { return value_; }
 
  private:
-    void Reevaluate();
+    void Reevaluate(int this_x, int this_y);
 
     // row and col of the grid
     static int M_;
