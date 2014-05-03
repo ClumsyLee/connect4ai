@@ -92,12 +92,12 @@ GameGrid::GameGrid(const GameGrid &parent)
 GameGrid::~GameGrid()
 {
     // delete top
-    delete top_;
+    delete [] top_;
 
     // delete board
     for (int row = 0; row < M_; row++)
-        delete board_[row];
-    delete board_;
+        delete [] board_[row];
+    delete [] board_;
 }
 
 void GameGrid::Place(int this_x, int this_y, int piece_type)
