@@ -1,13 +1,12 @@
 #ifndef CONNECT4AI_SOLVER_H_
 #define CONNECT4AI_SOLVER_H_
 
+#include "gamegrid.h"
 #include "Point.h"
 
 class Solver
 {
  public:
-    class GameGrid;
-
     Solver(int M, int N, const int *top, int **board,
            int lastX, int lastY, int noX, int noY,
            int depth);
@@ -19,7 +18,7 @@ class Solver
     class AlphaNode;
     class BetaNode;
 
-    // disable copy
+    // disable copying
     Solver(const Solver &);
     void operator=(const Solver &);
 
