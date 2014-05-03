@@ -1,4 +1,5 @@
 #include <cstring>
+#include "evaluator.h"
 #include "gamegrid.h"
 
 // static members
@@ -65,6 +66,8 @@ GameGrid::~GameGrid()
 
 void GameGrid::Place(int this_x, int this_y, int piece_type)
 {
+    double value_before = EvaluateRalatedValue(this_x, this_y);
+
     // adjust the top of the col
     // jump over if the new top is (noX, noY)
     if (this_y == noY_ && this_x == noX_ + 1 && noX_ != 0)
@@ -75,8 +78,62 @@ void GameGrid::Place(int this_x, int this_y, int piece_type)
     // add the new piece
     board_[this_x][this_y] = piece_type;
 
-    Reevaluate(this_x, this_y);
+    double value_after = EvaluateRalatedValue(this_x, this_y);
+    value_ += (value_after - value_before);
 }
 
 
+double GameGrid::EvaluateRalatedValue(int this_x, int this_y)
+{
+    Evaluator evaluator(this);
 
+    // same row
+    for (int y = 0; y < N_; y++)
+        evaluator.Next(this_x, y);
+    evaluator.End();
+
+    // same col
+    for (int x = 0; x < M_; x++)
+        evaluator.Next(x, this_y);
+    evaluator.End();
+
+    // same diagonal
+    if (this_x >= this_y)
+    {
+        int init_x = this_x - this_y;
+        if (init_x <= M_ - 4)
+        {
+            for (int x = init_x, y = 0; x < M_ && y < N_; x++, y++)
+                evaluator.Next(x, y);
+            evaluator.End();
+        }
+    }
+    else
+    {
+        int init_y = this_y - this_x;
+        if (init_y <= N_ - 4)
+        {
+            for (int x = 0, y = init_y; x < M_ && y < N_; x++, y++)
+                evaluator.Next(x, y);
+            evaluator.End();
+        }
+    }
+
+    // same clinodiagoal
+    int init_y = this_x + this_y;
+    if (init_y >= N_)
+    {
+        int init_x = init_y - N_ + 1;
+        for (int x = init_x, y = N_ - 1; x < M_ && y >= 0; x++, y--)
+            evaluator.Next(x, y);
+        evaluator.End();
+    }
+    else
+    {
+        for (int x = 0, y = init_y; x < M_ && y >= 0; x++, y--)
+            evaluator.Next(x, y);
+        evaluator.End();
+    }
+
+    return evaluator.value();
+}

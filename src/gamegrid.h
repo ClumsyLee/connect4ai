@@ -25,7 +25,7 @@ class GameGrid
     double value() const { return value_; }
 
  private:
-    void Reevaluate(int this_x, int this_y);
+    double EvaluateRalatedValue(int this_x, int this_y);
 
     // row and col of the grid
     static int M_;

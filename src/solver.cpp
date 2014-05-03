@@ -6,8 +6,6 @@
 #include "Point.h"
 #include "solver.h"
 
-///////////////////////// classes declarations /////////////////////////
-
 class Solver::AlphaNode
 {
  public:
@@ -27,6 +25,7 @@ class Solver::AlphaNode
     int beta_min_;
     int best_col_;
 };
+
 
 class Solver::BetaNode
 {
@@ -55,15 +54,17 @@ Solver::Solver(int M, int N, const int *top, int **board,
                int lastX, int lastY, int noX, int noY,
                int depth)
         : initial_state_(new GameGrid(M, N, top, board,
-                        lastX, lastY, noX, noY)),
+                                      lastX, lastY, noX, noY)),
           depth_(depth)
 {
 }
+
 
 Solver::~Solver()
 {
     delete initial_state_;
 }
+
 
 Point Solver::FindBestMove()
 {
@@ -77,7 +78,7 @@ Point Solver::FindBestMove()
         // pick a column randomly
         do
         {
-            best_col = std::rand() % initial_state_->N();
+            best_col = std::rand() % GameGrid::N();
         } while (initial_state_->top()[best_col] == 0);
     }
 
@@ -105,6 +106,7 @@ Solver::AlphaNode::AlphaNode(const BetaNode &parent, int this_x, int this_y)
 {
     board_.Place(this_x, this_y, GameGrid::ENEMY);
 }
+
 
 int Solver::AlphaNode::FindMax(int depth)
 {
