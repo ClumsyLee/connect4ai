@@ -1,5 +1,5 @@
-#ifndef GAMEGRID_H_
-#define GAMEGRID_H_
+#ifndef CONNECT4AI_GAMEGRID_H_
+#define CONNECT4AI_GAMEGRID_H_
 
 class GameGrid
 {
@@ -40,4 +40,4 @@ class GameGrid
 };
 
 
-#endif  // GAMEGRID_H_
+#endif  // CONNECT4AI_GAMEGRID_H_
